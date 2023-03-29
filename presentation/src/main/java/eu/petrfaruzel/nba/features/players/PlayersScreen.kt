@@ -25,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -35,6 +34,7 @@ import eu.petrfaruzel.nba.core.compose.OnBottomReached
 import eu.petrfaruzel.nba.core.compose.ProgressBar
 import eu.petrfaruzel.nba.core.compose.SimpleErrorScreen
 import eu.petrfaruzel.nba.core.compose.ViewStateWrapper
+import eu.petrfaruzel.nba.core.compose.TopBar
 import eu.petrfaruzel.nba.core.compose.logic.UIState
 import eu.petrfaruzel.nba.domain.features.players.models.PlayerDO
 import eu.petrfaruzel.nba.domain.features.teams.models.TeamDO
@@ -96,14 +96,11 @@ private fun PlayersScreenContent(
             )
         }
 
-        Text(
-            modifier = Modifier.padding(vertical = 16.dp),
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            text = stringResource(id = R.string.players_list)
+        TopBar(
+            navController = navController,
+            title = stringResource(id = R.string.players_list),
+            backNavigationEnabled = false
         )
-
-        Divider(thickness = 2.dp)
 
         LazyColumn(
             state = listState,

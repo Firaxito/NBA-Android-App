@@ -25,7 +25,7 @@ fun ApplicationScreen() {
         navController = navController,
         startDestination = PlayersScreenDestination.route
     ) {
-        // Players screen
+        // Players Screen
         composable(route = PlayersScreenDestination.route) {
             PlayersScreen(navController)
         }
@@ -50,8 +50,10 @@ fun ApplicationScreen() {
         ) {
             val jsonTeam = it.arguments?.getString(TeamDetailScreenDestination.teamArg)
             val team = tryParseJson<TeamDO>(jsonTeam)
-            TeamDetailScreen(teamDetail = team)
+            TeamDetailScreen(
+                teamDetail = team,
+                navController = navController
+            )
         }
-
     }
 }

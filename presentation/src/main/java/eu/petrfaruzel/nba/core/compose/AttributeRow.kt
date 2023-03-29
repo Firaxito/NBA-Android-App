@@ -1,12 +1,14 @@
 package eu.petrfaruzel.nba.core.compose
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,24 +29,31 @@ data class AttributeRowData(
     val onClicked: () -> Unit = {}
 )
 
-
 @Composable
 fun AttributeRow(
-    attributes: AttributeRowData
+    attributes: AttributeRowData,
 ) {
     Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
-                .clickable { attributes.onClicked() }
+                .clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = if (attributes.highlighted) rememberRipple() else null,
+                ) {
+                    attributes.onClicked()
+                }
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = attributes.key, fontWeight = FontWeight.Bold)
+            Text(
+                text = attributes.key,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text =  attributes.value ?: stringResource(id = R.string.player_unknown),
+                text = attributes.value ?: stringResource(id = R.string.player_unknown),
                 fontWeight = if (attributes.highlighted) FontWeight.Bold else FontWeight.Normal,
                 textDecoration = if (attributes.highlighted) TextDecoration.Underline else null,
                 color = if (attributes.highlighted) Color.Blue else Color.Black

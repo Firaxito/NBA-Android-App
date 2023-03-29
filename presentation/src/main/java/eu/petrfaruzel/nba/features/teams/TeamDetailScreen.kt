@@ -1,32 +1,26 @@
 package eu.petrfaruzel.nba.features.teams
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import eu.petrfaruzel.nba.R
 import eu.petrfaruzel.nba.core.compose.AttributeRow
 import eu.petrfaruzel.nba.core.compose.AttributeRowData
 import eu.petrfaruzel.nba.core.compose.NoContentScreen
+import eu.petrfaruzel.nba.core.compose.TopBar
 import eu.petrfaruzel.nba.domain.features.teams.models.TeamDO
 
 @Composable
 fun TeamDetailScreen(
+    navController: NavHostController,
     teamDetail: TeamDO?
 ) {
     if (teamDetail != null) {
         TeamDetailScreenContent(
+            navController = navController,
             team = teamDetail
         )
     } else {
@@ -37,6 +31,7 @@ fun TeamDetailScreen(
 
 @Composable
 private fun TeamDetailScreenContent(
+    navController: NavHostController,
     team: TeamDO
 ) {
 
@@ -60,18 +55,11 @@ private fun TeamDetailScreenContent(
     )
 
     Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                modifier = Modifier.padding(vertical = 16.dp),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                text = stringResource(id = R.string.team_detail)
-            )
-        }
-        Divider(modifier = Modifier.height(2.dp))
+        TopBar(
+            navController = navController,
+            title = stringResource(id = R.string.team_detail),
+            backNavigationEnabled = true
+        )
         for (attrib in attributes) {
             AttributeRow(attrib)
         }
@@ -80,6 +68,9 @@ private fun TeamDetailScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun TeamDetailScreenContentPreview(){
-    TeamDetailScreenContent(team = TeamDO())
+private fun TeamDetailScreenContentPreview() {
+    TeamDetailScreenContent(
+        team = TeamDO(),
+        navController = rememberNavController()
+    )
 }

@@ -31,4 +31,7 @@
     <!-- Global -->
     <string name="default_error_message">Vyskytla se chyba</string>
     <string name="empty_screen">Tady nic není</string>
+
+    <!-- Content descriptions -->
+    <string name="cs_back_arrow">Jít zpět</string>
 </resources>
