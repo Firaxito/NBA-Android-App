@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +50,8 @@ private fun PlayerDetailScreenContent(
     player: PlayerDO
 ) {
 
+    val context = LocalContext.current
+
     val attributes = listOf(
         AttributeRowData(
             stringResource(id = R.string.player_first_name),
@@ -73,14 +75,11 @@ private fun PlayerDetailScreenContent(
         ),
         AttributeRowData(
             stringResource(id = R.string.player_height),
-            getStringHeight(
-                player.heightFeet,
-                player.heightInches
-            )
+            player.getStringHeight()
         ),
         AttributeRowData(
             stringResource(id = R.string.player_weight),
-            getStringWeight(weightPounds = player.weightPounds)
+            player.getStringWeight(context, R.plurals.unit_pound)
         ),
     )
 
@@ -105,24 +104,6 @@ private fun PlayerDetailScreenContent(
         }
 
     }
-}
-
-// Support functions
-
-@Composable
-private fun getStringWeight(weightPounds: Long?): String? {
-    return if (weightPounds != null) "$weightPounds ${
-        pluralStringResource(
-            id = R.plurals.unit_pound,
-            count = weightPounds.toInt()
-        )
-    }" else null
-}
-
-private fun getStringHeight(heightFeet: Long?, heightInches: Long?): String? {
-    return if (heightFeet != null)
-        "${heightFeet}\" ${heightInches ?: 0}\'"
-    else null
 }
 
 
