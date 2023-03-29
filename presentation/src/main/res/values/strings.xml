@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">NBA</string>
+    <string name="team">Team</string>
+    <!-- Players -->
+    <string name="players_list">Seznam hráčů</string>
+
+    <!-- Player detail -->
+    <string name="player_detail">Detail hráče</string>
+    <string name="player_first_name">Jméno</string>
+    <string name="player_last_name">Příjmení</string>
+    <string name="player_team">Tým</string>
+    <string name="player_position">Pozice hráče</string>
+    <string name="player_height">Výška</string>
+    <string name="player_weight">Váha</string>
+    <plurals name="unit_pound">
+        <item quantity="one">libra</item>
+        <item quantity="few">libry</item>
+        <item quantity="other">liber</item>
+    </plurals>
+    <string name="unit_pound">Libra</string>
+    <string name="player_unknown">Neznámo</string>
+
+    <!-- Team detail -->
+    <string name="team_detail">Detail týmu</string>
+    <string name="team_full_name">Název týmu</string>
+    <string name="team_abbrev">Zkratka</string>
+    <string name="team_city">Město</string>
+    <string name="team_conference">Konference</string>
+
+    <!-- Global -->
+    <string name="default_error_message">Vyskytla se chyba</string>
+</resources>
