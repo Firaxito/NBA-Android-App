@@ -30,7 +30,10 @@ fun ApplicationScreen() {
         ) {
             val jsonPlayer = it.arguments?.getString(PlayerDetailScreenDestination.playerArg)
             val player = tryParseJson<PlayerDO>(jsonPlayer)
-            PlayerDetailScreen(navController, playerDetail = player)
+            PlayerDetailScreen(
+                navController,
+                playerDetail = player
+            )
         }
 
         // Team Detail Screen
@@ -40,7 +43,7 @@ fun ApplicationScreen() {
         ) {
             val jsonTeam = it.arguments?.getString(TeamDetailScreenDestination.teamArg)
             val team = tryParseJson<TeamDO>(jsonTeam)
-            TeamDetailScreen(navController, teamDetail = team)
+            TeamDetailScreen(teamDetail = team)
         }
 
     }

@@ -11,12 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -24,33 +24,25 @@ import androidx.navigation.compose.rememberNavController
 import eu.petrfaruzel.nba.R
 import eu.petrfaruzel.nba.core.compose.AttributeRow
 import eu.petrfaruzel.nba.core.compose.AttributeRowData
-import eu.petrfaruzel.nba.core.compose.ProgressBar
-import eu.petrfaruzel.nba.core.compose.SimpleErrorScreen
-import eu.petrfaruzel.nba.core.compose.logic.UIState
-import eu.petrfaruzel.nba.core.compose.ViewStateWrapper
+import eu.petrfaruzel.nba.core.compose.NoContentScreen
 import eu.petrfaruzel.nba.domain.features.players.models.PlayerDO
 import eu.petrfaruzel.nba.navigation.navigateToTeamDetail
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PlayerDetailScreen(
     navController: NavHostController = rememberNavController(),
     playerDetail: PlayerDO?,
-    viewModel: PlayersViewModel = koinViewModel()
 ) {
-    val viewState = viewModel.playersViewState.collectAsState()
     if (playerDetail != null) {
-        PlayerDetailScreenContent(navController, player = playerDetail)
+        PlayerDetailScreenContent(
+            navController,
+            player = playerDetail
+        )
     } else {
-        ViewStateWrapper(
-            viewState = viewState.value,
-            loading = { ProgressBar() },
-            error = { SimpleErrorScreen() }) {
-            val player = (viewState.value as UIState.LoadedUIState).value
-            PlayerDetailScreenContent(navController, player = player.first()) // TODO
-        }
+        NoContentScreen()
     }
 }
+
 
 @Composable
 private fun PlayerDetailScreenContent(
@@ -59,8 +51,14 @@ private fun PlayerDetailScreenContent(
 ) {
 
     val attributes = listOf(
-        AttributeRowData(stringResource(id = R.string.player_first_name), player.firstName),
-        AttributeRowData(stringResource(id = R.string.player_last_name), player.lastName),
+        AttributeRowData(
+            stringResource(id = R.string.player_first_name),
+            player.firstName
+        ),
+        AttributeRowData(
+            stringResource(id = R.string.player_last_name),
+            player.lastName
+        ),
         AttributeRowData(
             stringResource(id = R.string.player_team),
             player.team?.fullName,
@@ -69,10 +67,16 @@ private fun PlayerDetailScreenContent(
             val team = player.team
             if (team != null) navController.navigateToTeamDetail(team)
         },
-        AttributeRowData(stringResource(id = R.string.player_position), player.position),
+        AttributeRowData(
+            stringResource(id = R.string.player_position),
+            player.position
+        ),
         AttributeRowData(
             stringResource(id = R.string.player_height),
-            getStringHeight(player.heightFeet, player.heightInches)
+            getStringHeight(
+                player.heightFeet,
+                player.heightInches
+            )
         ),
         AttributeRowData(
             stringResource(id = R.string.player_weight),
@@ -119,4 +123,14 @@ private fun getStringHeight(heightFeet: Long?, heightInches: Long?): String? {
     return if (heightFeet != null)
         "${heightFeet}\" ${heightInches ?: 0}\'"
     else null
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun PlayerDetailScreenContentPreview() {
+    PlayerDetailScreenContent(
+        player = PlayerDO(),
+        navController = rememberNavController()
+    )
 }

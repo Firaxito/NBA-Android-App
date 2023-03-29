@@ -18,7 +18,8 @@
         <item quantity="other">liber</item>
     </plurals>
     <string name="unit_pound">Libra</string>
-    <string name="player_unknown">Neznámo</string>
+    <string name="player_unknown">Neznámé</string>
+
 
     <!-- Team detail -->
     <string name="team_detail">Detail týmu</string>
@@ -29,4 +30,5 @@
 
     <!-- Global -->
     <string name="default_error_message">Vyskytla se chyba</string>
+    <string name="empty_screen">Tady nic není</string>
 </resources>
