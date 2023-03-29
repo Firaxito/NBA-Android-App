@@ -19,7 +19,7 @@ import eu.petrfaruzel.nba.R
 import eu.petrfaruzel.nba.core.compose.AttributeRow
 import eu.petrfaruzel.nba.core.compose.AttributeRowData
 import eu.petrfaruzel.nba.core.compose.NoContentScreen
-import eu.petrfaruzel.nba.domain.features.players.models.TeamDO
+import eu.petrfaruzel.nba.domain.features.teams.models.TeamDO
 
 @Composable
 fun TeamDetailScreen(

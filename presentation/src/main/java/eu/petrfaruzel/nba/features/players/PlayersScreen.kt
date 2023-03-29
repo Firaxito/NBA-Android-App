@@ -37,7 +37,8 @@ import eu.petrfaruzel.nba.core.compose.SimpleErrorScreen
 import eu.petrfaruzel.nba.core.compose.ViewStateWrapper
 import eu.petrfaruzel.nba.core.compose.logic.UIState
 import eu.petrfaruzel.nba.domain.features.players.models.PlayerDO
-import eu.petrfaruzel.nba.domain.features.players.models.TeamDO
+import eu.petrfaruzel.nba.domain.features.teams.models.TeamDO
+
 import eu.petrfaruzel.nba.navigation.navigateToPlayerDetail
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

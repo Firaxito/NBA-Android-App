@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import eu.petrfaruzel.nba.domain.features.players.models.PlayerDO
-import eu.petrfaruzel.nba.domain.features.players.models.TeamDO
+import eu.petrfaruzel.nba.domain.features.teams.models.TeamDO
 import eu.petrfaruzel.nba.features.players.PlayerDetailScreen
 import eu.petrfaruzel.nba.features.players.PlayersScreen
 import eu.petrfaruzel.nba.features.teams.TeamDetailScreen

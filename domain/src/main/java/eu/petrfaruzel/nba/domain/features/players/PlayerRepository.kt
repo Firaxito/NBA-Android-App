@@ -6,7 +6,7 @@ import eu.petrfaruzel.nba.domain.features.players.models.PlayerResultDO
 import eu.petrfaruzel.nba.domain.features.players.models.toDO
 import eu.petrfaruzel.nba.shared.ResultState
 
-class PlayerRepository(
+internal class PlayerRepository(
     private val playerApi: PlayerApi
 ) : IPlayerRepository {
 

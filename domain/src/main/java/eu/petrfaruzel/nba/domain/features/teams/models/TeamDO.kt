@@ -1,4 +1,4 @@
-package eu.petrfaruzel.nba.domain.features.players.models
+package eu.petrfaruzel.nba.domain.features.teams.models
 
 import eu.petrfaruzel.nba.data.api.services.players.models.Team
 

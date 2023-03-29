@@ -1,6 +1,8 @@
 package eu.petrfaruzel.nba.domain.features.players.models
 
 import eu.petrfaruzel.nba.data.api.services.players.models.Player
+import eu.petrfaruzel.nba.domain.features.teams.models.TeamDO
+import eu.petrfaruzel.nba.domain.features.teams.models.toDO
 
 data class PlayerDO(
     val firstName: String? = null,

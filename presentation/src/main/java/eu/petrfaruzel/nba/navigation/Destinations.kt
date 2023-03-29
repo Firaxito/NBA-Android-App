@@ -5,7 +5,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import eu.petrfaruzel.nba.core.compose.logic.Destination
 import eu.petrfaruzel.nba.domain.features.players.models.PlayerDO
-import eu.petrfaruzel.nba.domain.features.players.models.TeamDO
+import eu.petrfaruzel.nba.domain.features.teams.models.TeamDO
 import eu.petrfaruzel.nba.shared.toJson
 
 object PlayersScreenDestination : Destination {
