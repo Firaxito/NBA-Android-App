@@ -1,18 +1,13 @@
 package eu.petrfaruzel.nba.data.api
 
-import android.provider.Telephony.Carriers.SERVER
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import eu.petrfaruzel.nba.shared.NETWORK_CONFIG
-import io.ktor.websocket.Serializer
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
-import kotlin.math.log
 
 object RetrofitHelper {
 
@@ -45,7 +40,7 @@ object RetrofitHelper {
 
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-        clientBuilder.interceptors().add(logging)
+        clientBuilder.addInterceptor(logging)
 
         val gson = GsonBuilder().setLenient()
 
