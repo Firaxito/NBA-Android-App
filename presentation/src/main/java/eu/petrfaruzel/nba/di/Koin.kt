@@ -6,6 +6,10 @@ import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
+/**
+ * Koin initialization function with all necessary modules
+ * from every package that uses DI
+ */
 fun initKoin(
     appDeclaration: KoinAppDeclaration
 ): KoinApplication = startKoin {

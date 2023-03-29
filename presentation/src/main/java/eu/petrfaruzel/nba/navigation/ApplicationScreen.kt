@@ -11,6 +11,13 @@ import eu.petrfaruzel.nba.features.players.PlayersScreen
 import eu.petrfaruzel.nba.features.teams.TeamDetailScreen
 import eu.petrfaruzel.nba.shared.tryParseJson
 
+/**
+ * Primary composable that contains root navigation
+ * of the application
+ *
+ * Routing is provided via destinations
+ * @see Destination
+ */
 @Composable
 fun ApplicationScreen() {
     val navController = rememberNavController()

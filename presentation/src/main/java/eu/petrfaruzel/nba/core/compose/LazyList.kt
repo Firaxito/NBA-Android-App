@@ -7,6 +7,10 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 
+/**
+ * Extension function for observing, if LazyList
+ * has been scrolled to the bottom
+ */
 @Composable
 fun LazyListState.OnBottomReached(
     loadMore : () -> Unit,

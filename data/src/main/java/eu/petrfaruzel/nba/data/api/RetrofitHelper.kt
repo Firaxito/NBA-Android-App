@@ -9,8 +9,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ *  Helper functions for retrofit
+ *
+ *  Most of the functions are required primarily for dependency injection
+ */
 object RetrofitHelper {
 
+    /**
+     * Api interface provider for dependency injection
+     */
     inline fun <reified T> provideApi(
         retrofit: Retrofit
     )  :T {
@@ -20,6 +28,11 @@ object RetrofitHelper {
             .create(T::class.java)
     }
 
+    /**
+     * Retrofit  provider for dependency injection
+     *
+     * Using OkHttp as client
+     */
     fun provideRetrofit() : Retrofit {
         val clientBuilder = OkHttpClient.Builder()
 
