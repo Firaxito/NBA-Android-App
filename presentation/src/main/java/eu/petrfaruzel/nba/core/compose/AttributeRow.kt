@@ -45,9 +45,9 @@ fun AttributeRow(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text =  attributes.value ?: stringResource(id = R.string.player_unknown),
-                fontWeight = if ( attributes.highlighted) FontWeight.Bold else FontWeight.Normal,
-                textDecoration = if ( attributes.highlighted) TextDecoration.Underline else null,
-                color = if ( attributes.highlighted) Color.Blue else Color.Black
+                fontWeight = if (attributes.highlighted) FontWeight.Bold else FontWeight.Normal,
+                textDecoration = if (attributes.highlighted) TextDecoration.Underline else null,
+                color = if (attributes.highlighted) Color.Blue else Color.Black
             )
         }
         Divider()

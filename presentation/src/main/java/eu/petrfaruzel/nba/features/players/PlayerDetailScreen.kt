@@ -62,7 +62,7 @@ private fun PlayerDetailScreenContent(
         AttributeRowData(
             stringResource(id = R.string.player_team),
             player.team?.fullName,
-            highlighted = true
+            highlighted = player.team != null
         ) {
             val team = player.team
             if (team != null) navController.navigateToTeamDetail(team)

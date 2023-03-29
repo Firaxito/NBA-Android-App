@@ -58,7 +58,7 @@ fun PlayersScreen(
         viewState = viewState.value,
         loading = { ProgressBar() },
         error = { SimpleErrorScreen() }) {
-        
+
         val playersData = viewState.value as UIState.LoadedUIState
 
         PlayersScreenContent(
@@ -87,12 +87,13 @@ private fun PlayersScreenContent(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-        if(!preview)
-        GlideImage(
-            model = "https://www.freepnglogos.com/uploads/nba-logo-png/nba-debate-club-milken-hottest-new-club-the-roar-25.png",
-            contentDescription = "logo",
-            modifier = Modifier.height(120.dp)
-        )
+        if (!preview) {
+            GlideImage(
+                model = "https://www.freepnglogos.com/uploads/nba-logo-png/nba-debate-club-milken-hottest-new-club-the-roar-25.png",
+                contentDescription = "logo",
+                modifier = Modifier.height(120.dp)
+            )
+        }
 
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
@@ -136,7 +137,12 @@ private fun PlayerItem(
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "${player.firstName} ${player.lastName}")
+        Text(
+            text = "${player.firstName} ${player.lastName}",
+            modifier = Modifier.padding(end = 8.dp),
+            fontWeight = FontWeight.Bold
+        )
+        Text(text = if (!player.position.isNullOrBlank()) "(${player.position})" else "")
         Spacer(modifier = Modifier.weight(1f))
         Text(text = player.team?.name ?: "")
     }
@@ -150,11 +156,13 @@ private fun TeamDetailScreenContentPreview() {
             PlayerDO(
                 firstName = "Firstname",
                 lastName = "1",
+                position = "G",
                 team = TeamDO(name = "Team name 1")
             ),
             PlayerDO(
                 firstName = "Firstname",
                 lastName = "2",
+                position = "C",
                 team = TeamDO(name = "Team name 2")
             ),
             PlayerDO(
