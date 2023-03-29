@@ -21,7 +21,8 @@ class PlayersViewModel(
         MutableStateFlow(UIState.LoadingUIState())
     val playersViewState: StateFlow<UIState<List<PlayerDO>>> = _playersViewState
 
-    private var metadata: MetaDataDO? = null
+    private var metadata: MetaDataDO? = null // Metadata of currently loaded items
+    private var isLoading: Boolean = false // Parallel players loading prevention flag
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -33,12 +34,15 @@ class PlayersViewModel(
 
     suspend fun loadMorePlayers() {
         // If we reach end of pagination, return false and stop loading
-        if (!canLoadMore()) return
+        if (isLoading || !canLoadMore()) return
+
+        isLoading = true
 
         val loadedData = playerRepository.getPlayers(
             page = metadata?.nextPage?.toInt() ?: 0,
             count = PAGING_SIZE_COUNT
         )
+
         when (loadedData) {
             is ResultState.Success -> {
                 metadata = loadedData.value.meta
@@ -57,6 +61,8 @@ class PlayersViewModel(
                 _playersViewState.value = UIState.ErrorUIState(loadedData.errorMessage)
             }
         }
+
+        isLoading = false
     }
 
     companion object {
