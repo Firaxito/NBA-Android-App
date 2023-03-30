@@ -1,6 +1,7 @@
 package eu.petrfaruzel.nba
 
 import androidx.compose.runtime.mutableStateOf
+import app.cash.turbine.test
 import eu.petrfaruzel.nba.core.compose.logic.UIState
 import eu.petrfaruzel.nba.domain.features.players.IPlayerRepository
 import eu.petrfaruzel.nba.domain.features.players.models.MetaDataDO
@@ -8,19 +9,33 @@ import eu.petrfaruzel.nba.domain.features.players.models.PlayerDO
 import eu.petrfaruzel.nba.domain.features.players.models.PlayerResultDO
 import eu.petrfaruzel.nba.features.players.PlayersViewModel
 import eu.petrfaruzel.nba.shared.ResultState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
+import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
 
 /**
  *  Class for Unit Testing PlayersViewModel
  *  @see PlayersViewModel
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class PlayersViewModelUnitTest {
 
     companion object {
         const val DEFAULT_DELAY = 10L
+    }
+
+    @Mock
+    private lateinit var playersViewModel: PlayersViewModel
+
+    @Before
+    fun setUp(){
+        playersViewModel = PlayersViewModel(MockPlayerRepository())
     }
 
     /**
@@ -29,7 +44,7 @@ class PlayersViewModelUnitTest {
      *  Always returning only 1 player per fetch and
      *  metadata with max of 2 pages with player's lastName of ${"currentPage"}
      */
-    class MockPlayerRepository : IPlayerRepository {
+    private class MockPlayerRepository : IPlayerRepository {
 
         private val currentPage = mutableStateOf(0L)
 
@@ -62,11 +77,7 @@ class PlayersViewModelUnitTest {
     @Test
     fun playersViewModelLoadingStateTest() {
 
-        val playersViewModel = PlayersViewModel(
-            MockPlayerRepository()
-        )
-
-        // Loading screen state
+        // Checking initial screen state
         val values = playersViewModel.playersViewState.value
         assert(values is UIState.LoadingUIState)
 
@@ -81,73 +92,49 @@ class PlayersViewModelUnitTest {
      * accidental double fetches after short interval
      */
     @Test
-    fun playersSequentialLoadingTest() {
+    fun playersSequentialLoadingTest() = runTest {
 
-        val playersViewModel = PlayersViewModel(
-            MockPlayerRepository()
-        )
+        playersViewModel.playersViewState.test {
+            awaitItem() // Skip loading state
 
-        // Wait until data are loaded
-        Thread.sleep(5 * DEFAULT_DELAY)
+            // Screen is loaded
+            val values1 = awaitItem()
+            assert(values1 is UIState.LoadedUIState)
+            values1 as UIState.LoadedUIState
 
-        // Screen is loaded
-        val values1 = playersViewModel.playersViewState.value
-        assert(values1 is UIState.LoadedUIState)
+            assertEquals(1, values1.value.size)
+            assertEquals("1", values1.value[0].lastName)
 
-        values1 as UIState.LoadedUIState
-        assertEquals(
-            1,
-            values1.value.size
-        )
-        assertEquals(
-            "1",
-            values1.value[0].lastName
-        )
-
-        // Try accidental double fetch
-        runBlocking {
+            // Try accidental double fetch
             playersViewModel.loadMorePlayers()
-            delay(2)
+            delay(1)
             playersViewModel.loadMorePlayers()
-            delay(3 * DEFAULT_DELAY)
+            delay(1)
+            playersViewModel.loadMorePlayers()
+
+            val values2 = awaitItem() as UIState.LoadedUIState
+            assertEquals(2, values2.value.size)
+            assertEquals("1", values2.value[0].lastName)
+            assertEquals("2", values2.value[1].lastName)
+
+            // Try fetch after data are loaded fully loaded
+            playersViewModel.loadMorePlayers()
+            delay(2 * DEFAULT_DELAY)
+            playersViewModel.loadMorePlayers()
+
+            // Checking for no value produced error
+            assertThrows(AssertionError::class.java){
+                runBlocking {
+                    awaitItem()
+                }
+            }
+
+            // Values should be the same as from second fetch
+            val values3 = playersViewModel.playersViewState.value as UIState.LoadedUIState
+            assertEquals(2, values3.value.size)
+            assertEquals("1", values3.value[0].lastName)
+            assertEquals("2", values3.value[1].lastName)
+
         }
-
-        val values2 = playersViewModel.playersViewState.value as UIState.LoadedUIState
-
-        assertEquals(
-            2,
-            values2.value.size
-        )
-        assertEquals(
-            "1",
-            values2.value[0].lastName
-        )
-        assertEquals(
-            "2",
-            values2.value[1].lastName
-        )
-
-        // Try fetch after data are loaded fully loaded
-        runBlocking {
-            playersViewModel.loadMorePlayers()
-            delay(3 * DEFAULT_DELAY)
-            playersViewModel.loadMorePlayers()
-            delay(3 * DEFAULT_DELAY)
-        }
-
-        val values3 = playersViewModel.playersViewState.value as UIState.LoadedUIState
-
-        assertEquals(
-            2,
-            values3.value.size
-        )
-        assertEquals(
-            "1",
-            values3.value[0].lastName
-        )
-        assertEquals(
-            "2",
-            values3.value[1].lastName
-        )
     }
 }
